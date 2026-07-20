@@ -1,0 +1,42 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "yule2028",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-07-15",
+  "workers_dev": true,
+  "vars": {
+    "ADMIN_USERNAME": "wenjianken",
+    "ADMIN_PASSWORD": "20260406",
+    "PROXY_USER": "wenjianken",
+    "PROXY_PASS": "20260406"
+  },
+  "assets": {
+    "directory": "static",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api", "/api/*", "/health", "/agent/ws", "/dashboard/*", "/public/*", "/notify", "/public-policy", "/frequency-policy"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB","database_id": "01529287-7fbb-4bad-a1df-2a2e1fffd43b","database_name": "yule2028"
+    }
+  ],
+  "triggers": {
+    "crons": ["*/5 * * * *"]
+  },
+  "durable_objects": {
+    "bindings": [
+      { "name": "VPS_PRESENCE", "class_name": "VpsPresence" },
+      { "name": "DASHBOARD_HUB", "class_name": "DashboardHub" }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["VpsPresence", "DashboardHub"]
+    }
+  ],
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 0.1
+  }
+}
